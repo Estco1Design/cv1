@@ -11,6 +11,7 @@ const env = {
   DATABASE_PATH: join(dir, "smoke.sqlite"),
   APP_PASSWORD: password,
   SETTINGS_ENCRYPTION_KEY: randomBytes(32).toString("hex"),
+  INSTAGRAM_SESSION_DIR: join(dir, "no-browser-login"),
   AI_BASE_URL: "http://127.0.0.1:1/v1",
   AI_API_KEY: "",
   PROFILE_PROVIDER_URL: "",
@@ -107,6 +108,29 @@ async function main() {
       await pause();
     }
     assert.ok(completed, "Worker did not finish demo pipeline");
+    const task = await api("agent/tasks", {
+      prompt: "Изучи подписчиков @alexandro_hideki, найди 1 клиента из Москвы",
+      source: "browser",
+    });
+    let blocked = false;
+    for (let i = 0; i < 50; i++) {
+      const detail = await api("agent/tasks/" + task.id);
+      if (detail.status === "blocked") {
+        assert.ok(detail.error.includes("сессия не подключена"));
+        assert.ok(
+          detail.steps.some(
+            (s: any) => s.tool === "getFollowers" && s.status === "failed",
+          ),
+        );
+        blocked = true;
+        break;
+      }
+      await pause();
+    }
+    assert.ok(
+      blocked,
+      "V2 must expose missing real browser session, never fake followers",
+    );
     await stop(worker);
     await stop(server);
     server = spawn(
@@ -125,6 +149,34 @@ async function main() {
     const restored = await api("state");
     assert.equal(restored.stats.total, 2);
     assert.equal(restored.messages.length, 1);
+    const restoredTask = await api("agent/tasks/" + task.id);
+    assert.equal(restoredTask.status, "blocked");
+    assert.equal(restoredTask.source_handle, "alexandro_hideki");
+    await api("agent/tasks/" + task.id + "/control", { action: "resume" });
+    worker = spawn(process.execPath, ["--import", "tsx", "scripts/worker.ts"], {
+      env,
+      stdio: "ignore",
+    });
+    let recovered = false;
+    for (let i = 0; i < 40; i++) {
+      const detail = await api("agent/tasks/" + task.id);
+      if (detail.status === "blocked") {
+        assert.equal(
+          detail.steps.filter(
+            (s: any) => s.tool === "parseTask" && s.status === "completed",
+          ).length,
+          1,
+        );
+        recovered = true;
+        break;
+      }
+      await pause();
+    }
+    assert.ok(
+      recovered,
+      "V2 resumed worker must reuse parsed intent after restart",
+    );
+
     const ai = await fetch(base + "/api/ai-test", {
       method: "POST",
       headers: { authorization, "content-type": "application/json" },
@@ -133,7 +185,7 @@ async function main() {
     assert.equal(ai.status, 400);
     assert.match((await ai.json()).error, /AI недоступен/);
     console.log(
-      "Production smoke PASS: fail-closed auth, UTF-8 credentials, CSRF, import, actual worker pipeline, persistent restart, unavailable AI handled. No external messages sent.",
+      "Production smoke PASS: fail-closed auth, UTF-8 credentials, CSRF, import, actual V1/V2 workers, persistent task restart/resume, honest missing-session block, unavailable AI handled. No external messages sent.",
     );
   } finally {
     await stop(worker);

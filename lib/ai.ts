@@ -215,6 +215,7 @@ export async function generate(
   profile: Profile,
   assessment: unknown,
   demo = false,
+  operatorInstructions = "",
 ) {
   return offerSchema.parse(
     demo
@@ -235,7 +236,7 @@ export async function generate(
           ],
         }
       : await completion(
-          "Generate exactly 3 distinct short outreach offers: A personal recognition, B creative collaboration, C business value. JSON {offers:[{variant:A|B|C,body:string}]}. Ground every personalization in facts. Follow knowledge forbidden phrases.",
+          `Generate exactly 3 distinct short outreach offers: A personal recognition, B creative collaboration, C business value. JSON {offers:[{variant:A|B|C,body:string}]}. Ground every personalization in facts. Follow knowledge forbidden phrases. Operator style constraints: ${operatorInstructions}`,
           { profile, assessment, knowledge: settings().knowledge },
           "generation",
         ),

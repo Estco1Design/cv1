@@ -1,3 +1,11 @@
+import {
+  agentState,
+  taskDetail,
+  createTask,
+  taskControl,
+  taskChat,
+  approveTask,
+} from "@/lib/agent/service";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db, row, rows, activity, id, now, insert } from "@/lib/db";
@@ -23,6 +31,9 @@ export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     const p = req.nextUrl.pathname.replace("/api/", "");
+    if (p === "agent/state") return NextResponse.json(agentState());
+    if (/^agent\/tasks\/[^/]+$/.test(p))
+      return NextResponse.json(taskDetail(p.split("/")[2]));
     if (p === "state") {
       const leads = rows("SELECT * FROM leads ORDER BY created_at DESC");
       return NextResponse.json({
@@ -73,7 +84,33 @@ export async function POST(req: NextRequest) {
     const p = req.nextUrl.pathname.replace("/api/", ""),
       b = await req.json();
     let result: any = { ok: true };
-    if (p === "import") {
+    if (p === "agent/tasks") {
+      const input = z
+        .object({
+          prompt: z.string().min(5).max(8000),
+          source: z.enum(["http", "browser"]),
+        })
+        .parse(b);
+      result = { id: createTask(input.prompt, input.source) };
+    } else if (/^agent\/tasks\/[^/]+\/(control|chat|approve)$/.test(p)) {
+      const [, , taskId, action] = p.split("/");
+      if (action === "control")
+        taskControl(
+          taskId,
+          z.enum(["pause", "resume", "stop"]).parse(b.action),
+        );
+      else if (action === "chat")
+        taskChat(taskId, z.string().min(1).max(4000).parse(b.text));
+      else
+        result = {
+          approved: approveTask(
+            taskId,
+            b.candidateIds
+              ? z.array(z.string()).max(200).parse(b.candidateIds)
+              : undefined,
+          ),
+        };
+    } else if (p === "import") {
       const input = z
         .object({
           url: z.string().max(2000).optional(),

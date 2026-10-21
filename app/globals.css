@@ -917,3 +917,551 @@ footer {
     font-size: 12px;
   }
 }
+
+/* V2: task console is primary; V1 CRM remains at /crm. */
+.agent-shell {
+  display: grid;
+  grid-template-columns: 268px minmax(0, 1fr);
+  min-height: 100vh;
+}
+.agent-sidebar {
+  padding: 32px 22px;
+  gap: 24px;
+}
+.agent-new {
+  color: #fff;
+  border-color: #666;
+  font-size: 10px;
+}
+.agent-new:hover {
+  background: #333;
+}
+.agent-tasklist {
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.agent-tasklist > button {
+  display: block;
+  text-align: left;
+  border-color: #3d3d3d;
+  letter-spacing: 0;
+  font-size: 12px;
+  padding: 14px;
+  color: #ccc;
+}
+.agent-tasklist > button:hover,
+.agent-tasklist > button.chosen {
+  background: #303030;
+  border-color: #999;
+}
+.agent-tasklist small {
+  font-size: 9px;
+  color: #aaa;
+}
+.agent-tasklist p {
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 8px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-weight: 400;
+}
+.agent-crmlink,
+.agent-back {
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #ccc;
+  text-decoration: none;
+  display: block;
+}
+.agent-back {
+  margin: 16px 0;
+}
+.agent-main {
+  padding: 0 48px 24px;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
+.agent-main header a {
+  color: inherit;
+  text-decoration: none;
+}
+.agent-connections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 21px 0 7px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #888;
+  overflow-wrap: anywhere;
+}
+.agent-connections span {
+  border: 1px solid #ddd;
+  padding: 6px 9px;
+}
+.agent-connections .available {
+  color: #333;
+  border-color: #999;
+}
+.agent-honesty {
+  color: #777;
+  font-size: 10px;
+  margin: 2px 0 28px;
+}
+.agent-welcome {
+  max-width: 900px;
+  padding: 40px 0;
+}
+.agent-welcome h1 {
+  font-size: clamp(35px, 4.1vw, 64px);
+  letter-spacing: -0.055em;
+  line-height: 1.12;
+}
+.agent-welcome > p {
+  font-size: 15px;
+  color: #707070;
+  max-width: 650px;
+  line-height: 1.8;
+  margin: 24px 0;
+}
+.agent-example {
+  display: block;
+  text-align: left;
+  letter-spacing: 0;
+  font-size: 12px;
+  margin: 26px 0;
+  line-height: 1.7;
+}
+.agent-login {
+  border: 1px solid #ddd;
+  padding: 18px 22px;
+  margin-top: 30px;
+  font-size: 12px;
+}
+.agent-login summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.agent-login ol {
+  padding-left: 20px;
+  line-height: 2;
+}
+.agent-login code {
+  font-size: 11px;
+  background: #eaeaea;
+  padding: 3px 6px;
+  overflow-wrap: anywhere;
+}
+.agent-taskheader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0 24px;
+}
+.agent-taskheader h1 {
+  font-size: clamp(28px, 4vw, 52px);
+  overflow-wrap: anywhere;
+  letter-spacing: -0.05em;
+}
+.agent-taskheader .eyebrow {
+  margin-bottom: 10px;
+}
+.agent-taskheader p {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 0;
+}
+.agent-counts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid #d8d8d8;
+  margin: 8px 0 24px;
+}
+.agent-counts > div {
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+.agent-counts > div:last-child {
+  border: 0;
+}
+.agent-counts strong {
+  display: block;
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+.agent-counts span {
+  font-size: 10px;
+  color: #777;
+  display: block;
+  margin-top: 8px;
+}
+.agent-blocker {
+  padding: 20px 24px;
+  border: 1px solid #b88c83;
+  background: #f5eeeb;
+  margin: 20px 0;
+  font-size: 12px;
+}
+.agent-blocker strong {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.agent-blocker p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.agent-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.agent-tabs button {
+  font-size: 10px;
+  letter-spacing: 0.03em;
+}
+.agent-tabs .active {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+}
+.agent-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.agent-messages article {
+  max-width: 88%;
+  padding: 20px 24px;
+  line-height: 1.8;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  overflow-wrap: anywhere;
+}
+.agent-messages article.user {
+  align-self: flex-end;
+  background: #eaeaea;
+  border: 0;
+}
+.agent-messages article.assistant {
+  align-self: flex-start;
+}
+.agent-messages small {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+.agent-messages article p {
+  font-size: 13px;
+  white-space: pre-wrap;
+  margin: 10px 0 0;
+}
+.agent-suggestions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0 22px;
+}
+.agent-suggestions button {
+  font-size: 10px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.agent-working {
+  font-size: 11px;
+  color: #666;
+}
+.agent-composer {
+  margin: 26px 0 34px;
+  border: 1px solid #aaa;
+  background: #fff;
+  padding: 22px;
+  box-shadow: 0 5px 24px #00000007;
+}
+.agent-composer > label {
+  font-size: 11px;
+  color: #666;
+}
+.agent-composer textarea {
+  border: 0;
+  min-height: 120px;
+  box-shadow: none !important;
+  font-size: 16px;
+  line-height: 1.7;
+  padding: 14px 0;
+}
+.agent-composer > div {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid #ddd;
+  padding-top: 14px;
+}
+.agent-composer select {
+  font-size: 11px;
+  min-width: 180px;
+}
+.agent-composer > p {
+  font-size: 9px;
+  color: #888;
+  margin: 16px 0 0;
+}
+.agent-composer button {
+  min-height: 42px;
+}
+.agent-tools details {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 18px;
+  font-size: 12px;
+  background: #fafafa;
+}
+.agent-tools summary {
+  display: flex;
+  gap: 18px;
+  cursor: pointer;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.agent-tools summary > span:first-child {
+  font-weight: 600;
+}
+.agent-tools time {
+  margin-left: auto;
+  font-size: 10px;
+  color: #777;
+}
+.agent-tools pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  max-height: 450px;
+  overflow: auto;
+  line-height: 1.7;
+  background: #f0f0f0;
+  padding: 14px;
+  margin: 16px 0 0;
+}
+.agent-tools code {
+  overflow-wrap: anywhere;
+}
+.agent-results > .panelhead {
+  margin-top: 26px;
+}
+.agent-results > .panelhead h2 {
+  font-size: 23px;
+}
+.agent-candidate {
+  border: 1px solid #d4d4d4;
+  background: #fafafa;
+  padding: 24px;
+  margin: 20px 0;
+  overflow-wrap: anywhere;
+}
+.agent-candidate > .panelhead a {
+  font-size: 19px;
+  text-decoration: none;
+  color: #222;
+  letter-spacing: -0.02em;
+}
+.agent-candidate p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.agent-candidate blockquote {
+  white-space: pre-wrap;
+}
+.agent-candidate blockquote a {
+  display: block;
+  font-size: 10px;
+  margin-top: 8px;
+  color: #555;
+}
+.agent-candidate details summary {
+  cursor: pointer;
+  font-size: 11px;
+}
+.agent-evidence {
+  border-top: 1px solid #ddd;
+  padding-top: 16px;
+  margin-top: 16px;
+}
+.agent-evidence > strong {
+  font-size: 11px;
+}
+.agent-draft {
+  padding: 22px;
+  background: #ededed;
+  margin: 20px 0;
+}
+.agent-draft > p {
+  font-size: 15px;
+  white-space: pre-wrap;
+}
+.agent-draft > .muted {
+  font-size: 11px;
+}
+@media (max-width: 1100px) {
+  .agent-shell {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  .agent-main {
+    padding: 0 24px 24px;
+  }
+  .agent-taskheader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .agent-counts > div {
+    padding: 14px;
+  }
+  .agent-sidebar {
+    padding: 28px 16px;
+  }
+  .agent-connections {
+    gap: 6px;
+  }
+  .agent-messages article {
+    max-width: 95%;
+  }
+}
+@media (max-width: 760px) {
+  .agent-shell {
+    display: block;
+  }
+  .agent-sidebar {
+    position: static;
+    height: auto;
+    padding: 22px 18px;
+    gap: 16px;
+  }
+  .agent-sidebar .brand span {
+    font-size: 9px;
+  }
+  .agent-tasklist {
+    max-height: 180px;
+    flex-direction: row;
+    overflow: auto;
+  }
+  .agent-tasklist > button {
+    min-width: 200px;
+    max-width: 220px;
+  }
+  .agent-sidebar .agent-new {
+    align-self: flex-start;
+    padding: 9px 13px;
+  }
+  .agent-tasklist > .muted {
+    margin: 0;
+    font-size: 11px;
+  }
+  .agent-crmlink {
+    font-size: 10px;
+  }
+  .agent-main {
+    padding: 0 18px 24px;
+  }
+  .agent-welcome {
+    padding: 20px 0;
+  }
+  .agent-welcome h1 {
+    font-size: 36px;
+  }
+  .agent-welcome > p {
+    font-size: 13px;
+  }
+  .agent-example {
+    font-size: 11px;
+    padding: 12px;
+  }
+  .agent-login {
+    padding: 16px;
+    font-size: 11px;
+  }
+  .agent-connections {
+    font-size: 8px;
+    gap: 5px;
+    padding-top: 18px;
+  }
+  .agent-connections span {
+    padding: 5px;
+  }
+  .agent-honesty {
+    font-size: 9px;
+    line-height: 1.7;
+  }
+  .agent-counts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .agent-counts > div:nth-child(2) {
+    border-right: 0;
+  }
+  .agent-counts > div:nth-child(-n + 2) {
+    border-bottom: 1px solid #ddd;
+  }
+  .agent-counts strong {
+    font-size: 29px;
+  }
+  .agent-taskheader h1 {
+    font-size: 31px;
+  }
+  .agent-messages article {
+    max-width: 100%;
+    padding: 17px;
+  }
+  .agent-composer {
+    padding: 17px;
+  }
+  .agent-composer textarea {
+    font-size: 14px;
+  }
+  .agent-composer > div {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .agent-composer select {
+    width: 100%;
+  }
+  .agent-tabs button {
+    font-size: 9px;
+    padding: 10px;
+  }
+  .agent-candidate {
+    padding: 17px;
+  }
+  .agent-candidate > .panelhead {
+    align-items: flex-start;
+  }
+  .agent-draft {
+    padding: 16px;
+  }
+  .agent-results > .panelhead {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .agent-results > .panelhead button {
+    font-size: 9px;
+  }
+  .agent-blocker {
+    padding: 16px;
+  }
+  .agent-tools summary {
+    gap: 8px;
+  }
+  .agent-tools details {
+    padding: 14px;
+  }
+}

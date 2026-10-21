@@ -3,6 +3,18 @@ import { settings, control } from "./settings";
 import { source, demoProfile, outreach } from "./providers";
 import { analyze, generate, evaluate } from "./ai";
 import { snapshot, queueOffer } from "./service";
+function taskAllowsDispatch(messageId: string) {
+  if (
+    !row(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='agent_candidates'",
+    )
+  )
+    return true;
+  return !row(
+    "SELECT t.id FROM agent_tasks t JOIN agent_candidates c ON c.task_id=t.id WHERE c.message_id=? AND t.status IN ('paused','stopped','blocked','failed') LIMIT 1",
+    messageId,
+  );
+}
 export async function dispatch(messageId: string) {
   const s = settings();
   if (s.queuePaused) throw new Error("Очередь приостановлена");
@@ -11,6 +23,12 @@ export async function dispatch(messageId: string) {
     messageId,
   );
   if (!m) throw new Error("Сообщение не найдено");
+  if (m.status === "queued" && !taskAllowsDispatch(m.id)) {
+    db.prepare(
+      "UPDATE outreach_messages SET status='awaiting_approval',approved=0,error='Задача остановлена, приостановлена или заблокирована. Требуется возобновление и новое одобрение.',updated_at=? WHERE id=? AND status='queued'",
+    ).run(now(), m.id);
+    return;
+  }
   if (m.demo || m.blocked || m.opted_out)
     throw new Error("Отправка запрещена: DEMO, блокировка или отказ");
   if (
@@ -44,6 +62,7 @@ export async function dispatch(messageId: string) {
       m.lead_id,
     );
     if (
+      !taskAllowsDispatch(m.id) ||
       fresh.queuePaused ||
       lead.blocked ||
       lead.opted_out ||

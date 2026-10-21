@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 test("imports and persists real leads, honest source errors and mobile layout", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/crm");
   await expect(page.getByRole("heading", { name: /The next/ })).toBeVisible();
   await page
     .getByRole("button", { name: "Lead Discovery", exact: true })
@@ -48,7 +48,7 @@ test("imports and persists real leads, honest source errors and mobile layout", 
 test("demo is explicitly labelled and service status is real", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/crm");
   await page
     .getByRole("button", { name: "Lead Discovery", exact: true })
     .click();

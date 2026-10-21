@@ -11,3 +11,7 @@ test-results/
 
 .next-*/
 next-env.d.ts
+
+instagram-session/
+playwright/.auth/
+*.storage-state.json

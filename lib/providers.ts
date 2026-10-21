@@ -16,6 +16,8 @@ export const profileSchema = z.object({
         caption: z.string().default(""),
         publishedAt: z.string().optional(),
         imageUrl: z.string().url().optional(),
+        url: z.string().url().optional(),
+        location: z.string().optional(),
       }),
     )
     .default([]),
