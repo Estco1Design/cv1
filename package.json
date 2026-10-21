@@ -1,0 +1,36 @@
+{
+  "name": "hideki-sales-agent",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "worker": "tsx scripts/worker.ts",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "smoke": "tsx scripts/production-smoke.ts"
+  },
+  "dependencies": {
+    "next": "^15.5.12",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "better-sqlite3": "^12.4.1",
+    "papaparse": "^5.5.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "tsx": "^4.20.6",
+    "@types/node": "^24.9.1",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/papaparse": "^5.3.16",
+    "@playwright/test": "^1.56.1",
+    "tailwindcss": "^4.1.16",
+    "@tailwindcss/postcss": "^4.1.16"
+  },
+  "type": "module"
+}
